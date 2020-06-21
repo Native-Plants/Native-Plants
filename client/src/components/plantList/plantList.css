@@ -1,0 +1,51 @@
+.plantListContainer {
+    width:75%;
+    display: flex;
+    flex-direction: column;
+}
+.plantContainer {
+    background-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 10px auto;
+    text-align: left;
+}
+.plant{
+    font-weight: bold;
+}
+.content {
+    display: flex;
+    margin-top: 15px;
+    height:200px;
+}
+.plantCategories {
+    display: flex;
+}
+.plantCategory {
+    margin-right: 15px;
+}
+/*
+    Will need to adjust. The issue is that I want width to be %, but I will need to look up how to make it match the height in pixels
+*/
+.plantImage {
+    width: 200px;
+    height: 100%;
+}
+
+.plantDescription {
+    height:100%;
+    align-self: flex-start;
+    margin-left: 15px;
+}
+
+.plantFilterBars {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.plantFilter {
+    margin-right: 15px;
+    display: flex;
+    align-items: flex-end;
+}

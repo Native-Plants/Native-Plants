@@ -1,0 +1,13 @@
+.navList {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.activeListItem {
+    color: blue;
+}
+
+.listItem {
+    color: gray;
+}
