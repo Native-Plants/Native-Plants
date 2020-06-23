@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Native-Plants/static/css/main.d3fd43d7.chunk.css",
+    "main.js": "/Native-Plants/static/js/main.0f6e8566.chunk.js",
+    "main.js.map": "/Native-Plants/static/js/main.0f6e8566.chunk.js.map",
+    "runtime-main.js": "/Native-Plants/static/js/runtime-main.c7724f50.js",
+    "runtime-main.js.map": "/Native-Plants/static/js/runtime-main.c7724f50.js.map",
+    "static/js/2.84145e39.chunk.js": "/Native-Plants/static/js/2.84145e39.chunk.js",
+    "static/js/2.84145e39.chunk.js.map": "/Native-Plants/static/js/2.84145e39.chunk.js.map",
+    "index.html": "/Native-Plants/index.html",
+    "precache-manifest.9f6e12023c5e724e378bf7dcf31fe61f.js": "/Native-Plants/precache-manifest.9f6e12023c5e724e378bf7dcf31fe61f.js",
+    "service-worker.js": "/Native-Plants/service-worker.js",
+    "static/css/main.d3fd43d7.chunk.css.map": "/Native-Plants/static/css/main.d3fd43d7.chunk.css.map",
+    "static/js/2.84145e39.chunk.js.LICENSE.txt": "/Native-Plants/static/js/2.84145e39.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c7724f50.js",
+    "static/js/2.84145e39.chunk.js",
+    "static/css/main.d3fd43d7.chunk.css",
+    "static/js/main.0f6e8566.chunk.js"
+  ]
+}
