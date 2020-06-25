@@ -3,13 +3,24 @@
     display: flex;
     flex-direction: column;
 }
-.plantContainer {
+.plantConainter {
     background-color: lightgray;
     display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.plantDetailContainer {
+    display: flex;
     flex-direction: column;
-    width: 100%;
-    margin: 10px auto;
+    width: 90%;
+    
     text-align: left;
+}
+.favoratePlantContainer {
+    width: 10%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
 }
 .plant{
     font-weight: bold;

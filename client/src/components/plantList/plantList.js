@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import green from '@material-ui/core/colors/green';
 import DoneIcon from '@material-ui/icons/Done';
 import {
@@ -12,10 +12,13 @@ import {
   Button,
   withStyles,
   ListItemText,
-  Chip
+  Chip,
+  IconButton
 } from "@material-ui/core/";
 import './plantList.css';
 import Tabletop from 'tabletop';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const GreenCheckbox = withStyles({
   root: {
@@ -67,12 +70,18 @@ function PlantList() {
   const [temperateZoneOptions, setTemperateZoneOptions] = useState(data.temperateZoneOptions);
   const [temperateZoneOptionsSelectedIds, setTemperateZoneOptionsSelectedIds] = useState([]);
   const [plantList, setPlantList] = useState([]);
+  const [favoratePlants, setFavoratePlants] = useState( () => {
+    const localData = localStorage.getItem("favoratePlants");
+    return (localData) ? JSON.parse(localData) : [];
+  });
   
   const [searchText, setSearchText] = useState("");
 
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
+    localStorage.setItem('favoratePlants', JSON.stringify(favoratePlants));
+
     async function fetchData() {
       Tabletop.init({
         key: '1xq_h1oDzlFt8wU4qLwVUHDN6P-z9v_A39bgNyb9rOng',
@@ -82,9 +91,8 @@ function PlantList() {
         simpleSheet: true
       })
     }
-
     fetchData();
-  }, []);
+  }, [favoratePlants]);
 
   function lookupValueByName(options, value, name) {
     for(let index = 0; index < options.length; index++) {
@@ -201,8 +209,25 @@ function PlantList() {
     return (lightFilterResults && temperateZoneFilterResults && searchFilterResults);
   });
 
+  function onClickFavorate(isLiked, id) {
+    const favoratePlantsCopy = JSON.parse(JSON.stringify(favoratePlants));
+    if (isLiked === false) {
+      favoratePlantsCopy.splice(favoratePlantsCopy.indexOf(id),1);
+      setFavoratePlants(favoratePlantsCopy);
+    }
+    else {
+      setFavoratePlants(favoratePlants.concat(id));
+    }
+  }
+
   const plantHeaderItems = filteredPlantList.map(plant => {return (
-    <div className={"plantContainer"} key={plant.id} onClick={() => setToggle(true)}>
+  <div className={"plantConainter"}>
+    <div className={"favoratePlantContainer"}>
+      <IconButton>
+        {favoratePlants.includes(plant.id) ? <FavoriteIcon onClick = {() => onClickFavorate(false, plant.id)} /> : <FavoriteBorderIcon onClick={() => {onClickFavorate(true, plant.id)}}/>}
+      </IconButton>
+    </div>
+    <div className={"plantDetailContainer"} key={plant.id} onClick={() => setToggle(true)}>
       <span className={"plant"}> {"Common Name: " + plant.commonName} </span>
       <span className={"plant"}> {"Scientific Name: " + plant.scientificName} </span>
       <div className={"content"}><img alt={plant.photoName}className={"plantImage"} src={`./images/${plant.photoName}.${plant.extension}`}/> <div className={"plantDescription"}>{plant.description}</div></div>
@@ -211,6 +236,7 @@ function PlantList() {
         <div className={"plantCategory"}>{"Temperature Zone Range: " + lookupValueByName(temperateZoneOptions, plant.temperateZoneMinId, "name") + " - " + lookupValueByName(temperateZoneOptions, plant.temperateZoneMaxId, "name")}</div>
       </div>
     </div>
+  </div>
   )})
 
   return (
