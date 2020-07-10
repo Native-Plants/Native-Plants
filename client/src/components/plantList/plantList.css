@@ -25,38 +25,41 @@
 .plant{
     font-weight: bold;
 }
-.content {
+.attributes {
     display: flex;
     margin-top: 15px;
     height:200px;
+    flex-direction: column;
 }
+.content {
+    display: flex;
+}
+
 .plantCategories {
     display: flex;
 }
 .plantCategory {
     margin-right: 15px;
 }
-/*
-    Will need to adjust. The issue is that I want width to be %, but I will need to look up how to make it match the height in pixels
-*/
-.plantImage {
-    width: 200px;
-    height: 100%;
-}
-
-.plantDescription {
-    height:100%;
-    align-self: flex-start;
-    margin-left: 15px;
-}
 
 .plantFilterBars {
     display: flex;
     margin-bottom: 15px;
+    width:100%;
 }
 
 .plantFilter {
     margin-right: 15px;
     display: flex;
     align-items: flex-end;
+}
+
+.plantsPerPage {
+    display: flex;
+    margin: 0 0 0 auto;
+}
+
+.backdrop {
+    z-index: 999;
+    color: #fff;
 }
