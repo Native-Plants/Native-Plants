@@ -256,7 +256,7 @@ function PlantList() {
       <span className={"plant"}> {"Common Name: " + plant.commonName} </span>
       <span className={"plant"}> {"Scientific Name: " + plant.genus + plant.species} </span>
       <div className={"content"}>
-        <img alt={plant.photoName}className={"plantImage"} src={`./images/${plant.genus}-${plant.species}.jpg`}/>
+        <img alt={plant.photoName}className={"plantImage"} src={`./images/${plant.genus.toLowerCase()}-${plant.species}.jpg`}/>
         <div className={"attributes"}>
           <div>{`States and Province: ${plant.stateAndProvince}`} </div>
           <div>{`Duration: ${plant.duration}`} </div>
