@@ -1,6 +1,7 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import green from '@material-ui/core/colors/green';
-import DoneIcon from '@material-ui/icons/Done';
+import Iframe from 'react-iframe'
+//import DoneIcon from '@material-ui/icons/Done';
 import {
   Checkbox,
   FormControl,
@@ -39,46 +40,54 @@ const GreenCheckbox = withStyles({
 })(props => <Checkbox color="default" {...props} />);
 
 const data = {};
-data.lightOptions = [
-    {id:1, name: "Sun"},
-    {id:2, name: "Partial Sun"},
-    {id:3, name: "Shade"},
+data.shadeToleranceOptions = [
+    "Tolerant",
+    "Intermediate",
+    "Intolerant"
 ];
-data.temperateZoneOptions = [
-    {id:1, name: "1a"},
-    {id:2, name: "1b"},
-    {id:3, name: "2a"},
-    {id:4, name: "2b"},
-    {id:5, name: "3a"},
-    {id:6, name: "3b"},
-    {id:7, name: "4a"},
-    {id:8, name: "4b"},
-    {id:9, name: "5a"},
-    {id:10, name: "5b"},
-    {id:11, name: "6a"},
-    {id:12, name: "6b"},
-    {id:13, name: "7a"},
-    {id:14, name: "7b"},
-    {id:15, name: "8a"},
-    {id:16, name: "8b"},
-    {id:17, name: "9a"},
-    {id:18, name: "9b"},
-    {id:19, name: "10a"},
-    {id:20, name: "10b"}
+data.durationOptions = [
+  "Perennial",
+  "Biennial",
+  "Annual"
 ];
-// data.plantList = [
-//     {id: 1, photoName: "achillea-millefolium-flower-closeup-sef", extension: "jpg", commonName: "Yarrow", scientificName: "Achillea millefolium",  description: "A good garden plant with fern-like foliage, showy flowers, and fragrant leaves. Introduced to America in colonial times and has since spread throughout the U.S. A tough plant which tolerates drought and poor soils as long as drainage is good. With its aggressive spreading habit, plants can naturalize into substantial colonies. Plant stems tend to flop in hot, humid climates or if grown in rich, moist soils. Species is rarely sold in nurseries but cultivars are common and include a range of colors. Attracts butterflies and bees.", lightId: 1, temperateZoneId: 13 },
-//     {id: 2, photoName: "dolls_eyes_baneberry", extension: "jpg", commonName: "Doll's Eyes, White Baneberry", scientificName: "Actaea pachypoda", description: "Attractive plant with white fruit.  Berries poisonous.", lightId: 3, temperateZoneId: 13 },
-//     {id: 3, photoName: "aga-yellow-giant-hyssop1", extension: "jpg", commonName: "Yellow Giant Hyssop", scientificName: "Agastache nepetoides", description: "Fast-growing, low maintenance plant in the mint family. Masses well. Dislikes dry sunny areas and foliage will wilt in hot dry summer weather.  Attracts butterflies and bees.", lightId: 2, temperateZoneId: 13}
-// ];
 
+data.growthHabitOptions = [
+  "Tree",
+  "Shrub",
+  "Forb",
+  "Herb",
+  "Graminoid",
+  "Subshrub",
+  "Vine"
+];
+
+data.activeGrowthPeriodOptions = [
+  "Fall",
+  "Winter",
+  "Spring",
+  "Summer"
+];
+
+data.commercialAvailabilityOptions = [
+  "Contracting Only",
+  "Field Collections Only",
+  "Routinely Available"
+];
 
 function PlantList() {
   //These states are used to filter 
-  const [lightOptions, setLightOptions] = useState(data.lightOptions);
-  const [lightOptionsSelectedIds, setLightOptionsSelectedIds] = useState([]);
-  const [temperateZoneOptions, setTemperateZoneOptions] = useState(data.temperateZoneOptions);
-  const [temperateZoneOptionsSelectedIds, setTemperateZoneOptionsSelectedIds] = useState([]);
+  const [shadetoleranceOptions, setShadeToleranceOptions] = useState(data.shadeToleranceOptions);
+  const [shadeToleranceSelected, setShadeToleranceSelected] = useState([]);
+  const [durationOptions, setDurationOptions] = useState(data.durationOptions);
+  const [durationSelected, setDurationSelected] = useState([]);
+  const [growthHabitOptions, setGrowthHabitOptions] = useState(data.growthHabitOptions);
+  const [growthHabitSelected, setGrowthHabitSelected] = useState([]);
+  const [activeGrowthPeriodOptions, setActiveGrowthPeriodOptions] = useState(data.activeGrowthPeriodOptions);
+  const [activeGrowthPeriodSelected, setActiveGrowthPeriodSelected] = useState([]);
+  const [commercialAvailabilityOptions, setCommercialAvailabilityOptions] = useState(data.commercialAvailabilityOptions);
+  const [commercialAvailabilitySelected, setCommercialAvailabilitySelected] = useState([]);
+  //const [temperateZoneOptions, setTemperateZoneOptions] = useState(data.temperateZoneOptions);
+  //const [temperateZoneOptionsSelectedIds, setTemperateZoneOptionsSelectedIds] = useState([]);
   const [favoratedFilter, setFavoratedFilter] = useState(false);
 
   const [loading, setLoading] = useState(true);
@@ -95,6 +104,7 @@ function PlantList() {
   const [searchText, setSearchText] = useState("");
 
   const [toggle, setToggle] = useState(false);
+  const [selectedPlant, setSelectedPlant] = useState({});
 
   useEffect(() => {
     localStorage.setItem('favoratePlants', JSON.stringify(favoratePlants));
@@ -125,7 +135,7 @@ function PlantList() {
     return (
       <div className={"plantFilter"}>
         <TextField
-          style={{ width: "250px" }}
+          style={{ width: "150px" }}
           label="Search"
           value={searchInputText}
           onChange={e => setSearchInputText(e.target.value)}
@@ -141,76 +151,75 @@ function PlantList() {
   //   onChange((options) => options.filter((option) => option.id !== data.key));
   // }
 
-  // function displayFilterBars(inputText, value, onChange, options ) {
-  //   const selectedOptions = options.filter(option => {
-  //     return value.includes(option.id);
-  //   })
+  function displayFilterBars(inputText, value, onChange, options ) {
+    const selectedOptions = options.filter(option => {
+      return value.includes(option);
+    })
 
-  //   return (
-  //     <div className={"plantFilter"}>
-  //       <FormControl>
-  //         <InputLabel>{inputText}</InputLabel>
-  //         <Select
-  //           renderValue={() => (
-  //             <div>
-  //               {
-  //                 selectedOptions.map((selectedOption) => {
-  //                   return (
-  //                     <Chip
-  //                       color={"primary"}
-  //                       key={selectedOption.id} 
-  //                       label={selectedOption.name}
-  //                       variant={"outlined"}
-  //                       id={selectedOption.id}
-  //                       onDelete={handleChipDelete(data, options, onChange)}
-  //                       // deleteIcon={
-  //                       //   <div
-  //                       //     onMouseDown={(event: MouseEvent) => {
-  //                       //       if (!props.disabled) {
-  //                       //         event.stopPropagation()
-  //                       //         onDelete(value)
-  //                       //       }
-  //                       //     }}
-  //                       //   >
-  //                       //     <DeleteIcon />
-  //                       //   </div>
-  //                       // }
-  //                     />)
-  //                 })
-  //               }
-  //             </div>
-  //           )}
-  //           style={{ width: "250px" }}
-  //           value={value}
-  //           onChange={e => {onChange(e.target.value)}}
-  //           multiple={true}
-  //         >
-  //           {options.map(item => (
-  //             <MenuItem key={item.id} value={item.id} id={item.id}>
-  //               <GreenCheckbox checked = {value.includes(item.id)}/>
-  //               <ListItemText primary={item.name} />
-  //             </MenuItem>
-  //           ))}
-  //         </Select>
-  //       </FormControl>
-  //     </div>
+    return (
+      <div className={"plantFilter"}>
+        <FormControl>
+          <InputLabel>{inputText}</InputLabel>
+          <Select
+            renderValue={() => (
+              <div>
+                {
+                  selectedOptions.map((selectedOption) => {
+                    return (
+                      <Chip
+                        color={"primary"}
+                        key={selectedOption} 
+                        label={selectedOption}
+                        variant={"outlined"}
+                        id={selectedOption}
+                        //onDelete={handleChipDelete(data, options, onChange)}
+                        // deleteIcon={
+                        //   <div
+                        //     onMouseDown={(event: MouseEvent) => {
+                        //       if (!props.disabled) {
+                        //         event.stopPropagation()
+                        //         onDelete(value)
+                        //       }
+                        //     }}
+                        //   >
+                        //     <DeleteIcon />
+                        //   </div>
+                        // }
+                      />)
+                  })
+                }
+              </div>
+            )}
+            style={{ width: "150px" }}
+            value={value}
+            onChange={e => {onChange(e.target.value)}}
+            multiple={true}
+          >
+            {options.map(item => (
+              <MenuItem key={item} value={item} id={item}>
+                <GreenCheckbox checked = {value.includes(item)}/>
+                <ListItemText primary={item} />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+    )
+  };
 
-  //   )
-  // };
+  // function filterListByRange(min, max, list) {
+  //   let isIncluded = false;
+  //   for (const value of list)
+  //   {
+  //     if(value >= parseInt(min, 10) && value <= parseInt(max, 10)) {
+  //       isIncluded = true;
+  //       break;
+  //     }
+  //   }
+  //   return isIncluded
+  // }
 
-  function filterListByRange(min, max, list) {
-    let isIncluded = false;
-    for (const value of list)
-    {
-      if(value >= parseInt(min, 10) && value <= parseInt(max, 10)) {
-        isIncluded = true;
-        break;
-      }
-    }
-    return isIncluded
-  }
-
-  function search() {
+  function searchButton() {
     return(<Button
       onClick={() => {
           setSearchText(searchInputText);
@@ -233,26 +242,40 @@ function PlantList() {
     }
   }
 
+  function isValueIncluded(value, selectedList){
+    let isValueIncluded = false;
+    for (const item of selectedList) {
+      if(value.toLowerCase().includes(item.toLowerCase()))
+      {
+        isValueIncluded = true;
+      }
+    }
+    
+    return isValueIncluded;
+  };
   
   const filteredPlantList = plantList.filter(plant => {
     const favoratedFilterResults = (favoratedFilter === false || favoratePlants.includes(plant.id));
-    const temperateZoneFilterResults = (temperateZoneOptionsSelectedIds.length === 0 || filterListByRange(plant.temperateZoneMinId, plant.temperateZoneMaxId, temperateZoneOptionsSelectedIds));
-    const lightFilterResults = (lightOptionsSelectedIds.length === 0 || lightOptionsSelectedIds.includes(parseInt(plant.lightId, 10)));
+    const shadeToleranceResults = (shadeToleranceSelected.length === 0 || shadeToleranceSelected.includes(plant.shadeTolerance));
+    const durationResults = (durationSelected.length === 0 || isValueIncluded(plant.duration, durationSelected));
+    const growthHabitResults = (growthHabitSelected.length === 0 || isValueIncluded(plant.growthHabit, growthHabitSelected))
+    const activeGrowthPeriodResults = (activeGrowthPeriodSelected.length ===0 || plant.activeGrowthPeriod === "Year Round" || isValueIncluded(plant.activeGrowthPeriod, activeGrowthPeriodSelected))
+    const commercialAvailabilityResults = (commercialAvailabilitySelected.length === 0 || commercialAvailabilitySelected.includes(plant.commercialAvailability))
     const searchFilterResults = (searchText === "" || plant.genus.toLowerCase().includes(searchText.toLowerCase()) || plant.species.toLowerCase().includes(searchText.toLowerCase()) || plant.commonName.toLowerCase().includes(searchText.toLowerCase()));
-    return (lightFilterResults && temperateZoneFilterResults && searchFilterResults && favoratedFilterResults);
+    return (searchFilterResults && shadeToleranceResults &&  durationResults && growthHabitResults && activeGrowthPeriodResults && commercialAvailabilityResults && favoratedFilterResults);
   });
   const maxLength = ((pageNumber + plantsPerPage) > filteredPlantList.length) ? filteredPlantList.length : (pageNumber + plantsPerPage);
   
   const displayPlantList = filteredPlantList.slice(pageNumber, maxLength);
 
-  const plantHeaderItems = displayPlantList.map(plant => {return (
+  const plantHeaderItems = (displayPlantList.length === 0) ? <div><h1>There are no plants that match this filter</h1></div>: displayPlantList.map(plant => {return (
   <div className={"plantConainter"}>
     <div className={"favoratePlantContainer"}>
       <Icon>
         {favoratePlants.includes(plant.id) ? <FavoriteIcon onClick = {() => onClickFavorate(false, plant.id)} /> : <FavoriteBorderIcon onClick={() => {onClickFavorate(true, plant.id)}}/>}
       </Icon>
     </div>
-    <div className={"plantDetailContainer"} key={plant.id} onClick={() => setToggle(true)}>
+    <div className={"plantDetailContainer"} key={plant.id} onClick={() => {setToggle(true); setSelectedPlant(plant);}}>
       <span className={"plant"}> {"Common Name: " + plant.commonName} </span>
       <span className={"plant"}> {`Scientific Name: ${plant.genus} ${plant.species}`} </span>
       <div className={"content"}>
@@ -321,25 +344,30 @@ function PlantList() {
     />
   )
   
+  const plantProps = {
+    selectedPlant
+  };
 
   return (
     <div className={"plantListContainer"}>
       <div className={"plantFilterBars"}>
-
-        {/* {displayFilterBars("Light Requirements", lightOptionsSelectedIds, setLightOptionsSelectedIds, lightOptions)} */}
-        {/* {displayFilterBars("Temperate Zones", temperateZoneOptionsSelectedIds, setTemperateZoneOptionsSelectedIds, temperateZoneOptions)} */}
+        {displayFilterBars("Shade Tolerances", shadeToleranceSelected, setShadeToleranceSelected, shadetoleranceOptions)}
+        {displayFilterBars("Durations", durationSelected, setDurationSelected, durationOptions)}
+        {displayFilterBars("Growth Habits", growthHabitSelected, setGrowthHabitSelected, growthHabitOptions)}
+        {displayFilterBars("Active Growth Habits", activeGrowthPeriodSelected, setActiveGrowthPeriodSelected, activeGrowthPeriodOptions)}
+        {displayFilterBars("Commercial Availability", commercialAvailabilitySelected, setCommercialAvailabilitySelected, commercialAvailabilityOptions)}
         {displaySearchBar()}
-        {search()}
+        {searchButton()}  
         {favorateToggle}
       </div>
-      {pageStatus}
-
-      {plantHeaderItems}
+      {loading ? null : pageStatus}
+      {loading ? null : plantHeaderItems}
 
       <Dialog fullScreen={true} open={toggle} onClose={() => {setToggle(false)} }>
-        <Button onClick={() => {setToggle(false)}} >
+        <Button className={"header"} onClick={() => {setToggle(false); setSelectedPlant({});}} >
           Close
         </Button>
+        <Plant props={plantProps}/>
       </Dialog>
 
       <Backdrop className={"backdrop"} open={loading}>
@@ -349,6 +377,15 @@ function PlantList() {
 
 
   );
+}
+
+function Plant(props) {
+  const {selectedPlant} = props.props; 
+  return (<Iframe url={`https://www.inaturalist.org`}
+  id="myId"
+  className="dialogBody"
+  display="initial"
+  position="relative"/>);
 }
 
 export default PlantList;

@@ -63,3 +63,12 @@
     z-index: 999;
     color: #fff;
 }
+
+.header {
+    height:5%;
+    width: 100%;
+}
+.dialogBody {
+    height:95%;
+    widows: 100%;
+}
