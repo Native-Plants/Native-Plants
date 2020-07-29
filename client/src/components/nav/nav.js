@@ -1,6 +1,7 @@
 import React, {useState, Fragment} from 'react';
 import {NavLink} from 'react-router-dom';
 import './nav.css';
+import { AppBar, Toolbar, IconButton, Typography, Button } from '@material-ui/core';
 /*
   This object is pretty basic and will only be modified for styling purposes. All new navbar objects will be modified in the navObjects object in the App component.
 */
@@ -16,18 +17,29 @@ function Nav(props) {
   
   const navListItems = navObjects.map(navObject => {
     return (
-    <NavLink to = {navObject.path} key = {navObject.id}>
-      <li key={navObject.id}>
-        {navObject.name}
-      </li>
-    </NavLink>);
+      <NavLink to = {navObject.path} key = {navObject.id}>
+          {navObject.name}
+      </NavLink>
+    );
   });
 
   return (
     <Fragment>
-      <ul className = "navList">
-        {navListItems}
-      </ul>
+      <AppBar position="static">
+        <Toolbar>
+          <div className = "appBar">
+            <Typography variant="h6">
+              Ethical Landscape Initiative
+            </Typography>
+            <div className = "navigationContainer">
+              {navListItems}
+            </div>  
+          </div>
+          
+          {/* <Button color="inherit">Login</Button> */}
+        </Toolbar>
+      </AppBar>
+
     </Fragment>
   );
 }

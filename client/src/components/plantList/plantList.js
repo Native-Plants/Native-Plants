@@ -78,24 +78,27 @@ function PlantList() {
   //These states are used to filter 
   const [shadetoleranceOptions, setShadeToleranceOptions] = useState(data.shadeToleranceOptions);
   const [shadeToleranceSelected, setShadeToleranceSelected] = useState([]);
+  const [shadeToleranceActiveFilter, setShadeToleranceActiveFilter] = useState([]);
   const [durationOptions, setDurationOptions] = useState(data.durationOptions);
   const [durationSelected, setDurationSelected] = useState([]);
+  const [durationActiveFilter, setDurationActiveFilter] = useState([]);
   const [growthHabitOptions, setGrowthHabitOptions] = useState(data.growthHabitOptions);
   const [growthHabitSelected, setGrowthHabitSelected] = useState([]);
+  const [growthHabitActiveFilter, setGrowthHabitActiveFilter] = useState([]);
   const [activeGrowthPeriodOptions, setActiveGrowthPeriodOptions] = useState(data.activeGrowthPeriodOptions);
   const [activeGrowthPeriodSelected, setActiveGrowthPeriodSelected] = useState([]);
+  const [activeGrowthPeriodActiveFilter, setActiveGrowthPeriodActiveFilter] = useState([]);
   const [commercialAvailabilityOptions, setCommercialAvailabilityOptions] = useState(data.commercialAvailabilityOptions);
   const [commercialAvailabilitySelected, setCommercialAvailabilitySelected] = useState([]);
-  //const [temperateZoneOptions, setTemperateZoneOptions] = useState(data.temperateZoneOptions);
-  //const [temperateZoneOptionsSelectedIds, setTemperateZoneOptionsSelectedIds] = useState([]);
-  const [favoratedFilter, setFavoratedFilter] = useState(false);
+  const [commercialAvailabilityActiveFilter, setCommercialActiveFilter] = useState([]);
+  const [favoritedFilter, setFavoritedFilter] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [plantList, setPlantList] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [plantsPerPage, setPlantsPerPage] = useState(10);
-  const [favoratePlants, setFavoratePlants] = useState( () => {
-    const localData = localStorage.getItem("favoratePlants");
+  const [favoritePlants, setFavoritePlants] = useState( () => {
+    const localData = localStorage.getItem("favoritePlants");
     return (localData) ? JSON.parse(localData) : [];
   });
 
@@ -107,7 +110,7 @@ function PlantList() {
   const [selectedPlant, setSelectedPlant] = useState({});
 
   useEffect(() => {
-    localStorage.setItem('favoratePlants', JSON.stringify(favoratePlants));
+    localStorage.setItem('favoritePlants', JSON.stringify(favoritePlants));
 
     async function fetchData() {
       Tabletop.init({
@@ -120,16 +123,7 @@ function PlantList() {
       })
     }
     fetchData();
-  }, [favoratePlants]);
-
-  // function lookupValueByName(options, value, name) {
-  //   for(let index = 0; index < options.length; index++) {
-  //     if(options[index]["id"] == value) {
-  //       return options[index][name];
-  //     }
-  //   }
-  //   return "";
-  // }sear
+  }, [favoritePlants]);
 
   function displaySearchBar() {
     return (
@@ -146,10 +140,6 @@ function PlantList() {
       </div>
     );
   }
-
-  // const handleChipDelete = (data, options, onChange) => () => {
-  //   onChange((options) => options.filter((option) => option.id !== data.key));
-  // }
 
   function displayFilterBars(inputText, value, onChange, options ) {
     const selectedOptions = options.filter(option => {
@@ -172,19 +162,6 @@ function PlantList() {
                         label={selectedOption}
                         variant={"outlined"}
                         id={selectedOption}
-                        //onDelete={handleChipDelete(data, options, onChange)}
-                        // deleteIcon={
-                        //   <div
-                        //     onMouseDown={(event: MouseEvent) => {
-                        //       if (!props.disabled) {
-                        //         event.stopPropagation()
-                        //         onDelete(value)
-                        //       }
-                        //     }}
-                        //   >
-                        //     <DeleteIcon />
-                        //   </div>
-                        // }
                       />)
                   })
                 }
@@ -207,38 +184,53 @@ function PlantList() {
     )
   };
 
-  // function filterListByRange(min, max, list) {
-  //   let isIncluded = false;
-  //   for (const value of list)
-  //   {
-  //     if(value >= parseInt(min, 10) && value <= parseInt(max, 10)) {
-  //       isIncluded = true;
-  //       break;
-  //     }
-  //   }
-  //   return isIncluded
-  // }
-
-  function searchButton() {
+  function applyFilterButton() {
     return(<Button
       onClick={() => {
           setSearchText(searchInputText);
+          setShadeToleranceActiveFilter(shadeToleranceSelected);
+          setDurationActiveFilter(durationSelected);
+          setGrowthHabitActiveFilter(growthHabitSelected);
+          setActiveGrowthPeriodActiveFilter(activeGrowthPeriodSelected);
+          setCommercialActiveFilter(commercialAvailabilitySelected);
           setPageNumber(0);
         }
       }
     >
-    {"Search"}
-  </Button>)
+    {"Apply Filters"}
+    </Button>)
+  }
+  function clearFiltersButton() {
+    return(<Button
+      onClick={() => {
+          setSearchText("");
+          setSearchInputText("");
+          setShadeToleranceActiveFilter([]);
+          setShadeToleranceSelected([]);
+          setDurationActiveFilter([]);
+          setDurationSelected([]);
+          setGrowthHabitActiveFilter([])
+          setGrowthHabitSelected([]);
+          setActiveGrowthPeriodActiveFilter([]);
+          setActiveGrowthPeriodSelected([]);
+          setCommercialActiveFilter([]);
+          setCommercialAvailabilitySelected([]);
+          setPageNumber(0);
+        }
+      }
+    >
+    {"Clear Filters"}
+    </Button>)
   }
 
-  function onClickFavorate(isLiked, id) {
-    const favoratePlantsCopy = JSON.parse(JSON.stringify(favoratePlants));
+  function onClickFavorite(isLiked, id) {
+    const favoritePlantsCopy = JSON.parse(JSON.stringify(favoritePlants));
     if (isLiked === false) {
-      favoratePlantsCopy.splice(favoratePlantsCopy.indexOf(id),1);
-      setFavoratePlants(favoratePlantsCopy);
+      favoritePlantsCopy.splice(favoritePlantsCopy.indexOf(id),1);
+      setFavoritePlants(favoritePlantsCopy);
     }
     else {
-      setFavoratePlants(favoratePlants.concat(id));
+      setFavoritePlants(favoritePlants.concat(id));
     }
   }
 
@@ -255,14 +247,14 @@ function PlantList() {
   };
   
   const filteredPlantList = plantList.filter(plant => {
-    const favoratedFilterResults = (favoratedFilter === false || favoratePlants.includes(plant.id));
-    const shadeToleranceResults = (shadeToleranceSelected.length === 0 || shadeToleranceSelected.includes(plant.shadeTolerance));
-    const durationResults = (durationSelected.length === 0 || isValueIncluded(plant.duration, durationSelected));
-    const growthHabitResults = (growthHabitSelected.length === 0 || isValueIncluded(plant.growthHabit, growthHabitSelected))
-    const activeGrowthPeriodResults = (activeGrowthPeriodSelected.length ===0 || plant.activeGrowthPeriod === "Year Round" || isValueIncluded(plant.activeGrowthPeriod, activeGrowthPeriodSelected))
-    const commercialAvailabilityResults = (commercialAvailabilitySelected.length === 0 || commercialAvailabilitySelected.includes(plant.commercialAvailability))
+    const favoritedFilterResults = (favoritedFilter === false || favoritePlants.includes(plant.id));
+    const shadeToleranceResults = (shadeToleranceActiveFilter.length === 0 || shadeToleranceActiveFilter.includes(plant.shadeTolerance));
+    const durationResults = (durationActiveFilter.length === 0 || isValueIncluded(plant.duration, durationActiveFilter));
+    const growthHabitResults = (growthHabitActiveFilter.length === 0 || isValueIncluded(plant.growthHabit, growthHabitActiveFilter))
+    const activeGrowthPeriodResults = (activeGrowthPeriodActiveFilter.length ===0 || plant.activeGrowthPeriod === "Year Round" || isValueIncluded(plant.activeGrowthPeriod, activeGrowthPeriodActiveFilter))
+    const commercialAvailabilityResults = (commercialAvailabilityActiveFilter.length === 0 || commercialAvailabilityActiveFilter.includes(plant.commercialAvailability))
     const searchFilterResults = (searchText === "" || plant.genus.toLowerCase().includes(searchText.toLowerCase()) || plant.species.toLowerCase().includes(searchText.toLowerCase()) || plant.commonName.toLowerCase().includes(searchText.toLowerCase()));
-    return (searchFilterResults && shadeToleranceResults &&  durationResults && growthHabitResults && activeGrowthPeriodResults && commercialAvailabilityResults && favoratedFilterResults);
+    return (searchFilterResults && shadeToleranceResults &&  durationResults && growthHabitResults && activeGrowthPeriodResults && commercialAvailabilityResults && favoritedFilterResults);
   });
   const maxLength = ((pageNumber + plantsPerPage) > filteredPlantList.length) ? filteredPlantList.length : (pageNumber + plantsPerPage);
   
@@ -270,9 +262,9 @@ function PlantList() {
 
   const plantHeaderItems = (displayPlantList.length === 0) ? <div><h1>There are no plants that match this filter</h1></div>: displayPlantList.map(plant => {return (
   <div className={"plantConainter"}>
-    <div className={"favoratePlantContainer"}>
+    <div className={"favoritePlantContainer"}>
       <Icon>
-        {favoratePlants.includes(plant.id) ? <FavoriteIcon onClick = {() => onClickFavorate(false, plant.id)} /> : <FavoriteBorderIcon onClick={() => {onClickFavorate(true, plant.id)}}/>}
+        {favoritePlants.includes(plant.id) ? <FavoriteIcon onClick = {() => onClickFavorite(false, plant.id)} /> : <FavoriteBorderIcon onClick={() => {onClickFavorite(true, plant.id)}}/>}
       </Icon>
     </div>
     <div className={"plantDetailContainer"} key={plant.id} onClick={() => {setToggle(true); setSelectedPlant(plant);}}>
@@ -330,16 +322,16 @@ function PlantList() {
 
   )
 
-  const favorateToggle = (
+  const favoriteToggle = (
     <FormControlLabel
       control={
         <Switch
           color="primary" 
-          checked={favoratedFilter}
-          onChange={() => {setFavoratedFilter(!favoratedFilter);}}
+          checked={favoritedFilter}
+          onChange={() => {setFavoritedFilter(!favoritedFilter);}}
         />
       }
-      label="Show Favorates Only"
+      label="Show Favorites Only"
       labelPlacement="start"
     />
   )
@@ -357,8 +349,9 @@ function PlantList() {
         {displayFilterBars("Active Growth Habits", activeGrowthPeriodSelected, setActiveGrowthPeriodSelected, activeGrowthPeriodOptions)}
         {displayFilterBars("Commercial Availability", commercialAvailabilitySelected, setCommercialAvailabilitySelected, commercialAvailabilityOptions)}
         {displaySearchBar()}
-        {searchButton()}  
-        {favorateToggle}
+        {applyFilterButton()}
+        {clearFiltersButton()}
+        {favoriteToggle}
       </div>
       {loading ? null : pageStatus}
       {loading ? null : plantHeaderItems}

@@ -11,3 +11,12 @@
 .listItem {
     color: gray;
 }
+
+.navigationContainer{
+    justify-self: center;
+    align-self: center;
+}
+
+.appBar {
+    display:flex;
+}
