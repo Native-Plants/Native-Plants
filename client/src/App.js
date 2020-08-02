@@ -4,6 +4,7 @@ import Nav from "./components/nav/nav";
 import Home from "./components/home/home";
 import About from "./components/about/about";
 import PlantList from "./components/plantList/plantList";
+import Store from "./components/store/store";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 function App() {
@@ -15,7 +16,7 @@ function App() {
   {id: 1, name: "Home",        path: "/",               exact: true,  display: true,  component: Home},
   {id: 2, name: "About",       path: "/about",          exact: true,  display: true,  component: About},
   {id: 3, name: "Plants List", path: "/plant-list",     exact: true,  display: true,  component: PlantList},
-  {id: 4, name: "Store",       path: "/store",          exact: true,  display: true,  component: Home}
+  {id: 4, name: "Store",       path: "/store",          exact: true,  display: true,  component: Store}
   ];
 
   /*

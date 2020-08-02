@@ -19,7 +19,9 @@ function Nav(props) {
     return (
       <Grid item xs={1}>
         <NavLink to = {navObject.path} key = {navObject.id}>
-            {navObject.name}
+            <span className = "navItem">
+              {navObject.name}
+            </span>
         </NavLink>
       </Grid>
     );
