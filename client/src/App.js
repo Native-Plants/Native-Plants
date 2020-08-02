@@ -4,8 +4,8 @@ import Nav from "./components/nav/nav";
 import Home from "./components/home/home";
 import About from "./components/about/about";
 import PlantList from "./components/plantList/plantList";
-import PageNotFound from "./components/pageNotFound/pageNotFound";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { Grid } from '@material-ui/core';
 function App() {
   /*
     This list of objects below is what populates the items on the Navbar, and also takes care of the routing.
@@ -13,8 +13,9 @@ function App() {
   */
  const pageObjects = [
   {id: 1, name: "Home",        path: "/",               exact: true,  display: true,  component: Home},
-  {id: 2, name: "About",       path: "/about",          exact: true, display: true,  component: About},
-  {id: 3, name: "Plants List", path: "/plant-list",     exact: true,  display: true,  component: PlantList}
+  {id: 2, name: "About",       path: "/about",          exact: true,  display: true,  component: About},
+  {id: 3, name: "Plants List", path: "/plant-list",     exact: true,  display: true,  component: PlantList},
+  {id: 4, name: "Store",       path: "/store",          exact: true,  display: true,  component: Home}
   ];
 
   /*
@@ -34,13 +35,12 @@ function App() {
   */
   return (
     <Router basename={process.env.PUBLIC_URL}>
+      <Grid container className={"content"}>
       <Nav navObjects={navObjects}/>
-      <div className={"componentContainer"}>
         <Switch>
           {pageRoutes}
-          <Route component={PageNotFound} />
         </Switch>
-      </div>
+      </Grid>
     </Router>
 
   );

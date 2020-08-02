@@ -1,7 +1,5 @@
 .plantListContainer {
-    width:75%;
     display: flex;
-    flex-direction: column;
 }
 .plantConainter {
     background-color: lightgray;
@@ -13,10 +11,9 @@
     display: flex;
     flex-direction: column;
     width: 90%;
-    
     text-align: left;
 }
-.favoritePlantContainer {
+.favoratePlantContainer {
     width: 10%;
     display: flex;
     align-content: center;
@@ -44,12 +41,10 @@
 
 .plantFilterBars {
     display: flex;
-    margin-bottom: 15px;
-    width:100%;
+    flex-direction: column;
 }
 
 .plantFilter {
-    margin-right: 15px;
     display: flex;
     align-items: flex-end;
 }
@@ -64,6 +59,10 @@
     color: #fff;
 }
 
+.filters{
+    padding-right:50px;
+}
+
 .header {
     height:5%;
     width: 100%;
@@ -71,4 +70,8 @@
 .dialogBody {
     height:95%;
     widows: 100%;
+}
+.grid {
+    flex-grow: 1;
+    flex-shrink: 1;
 }
