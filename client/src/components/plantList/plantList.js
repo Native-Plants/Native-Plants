@@ -1,26 +1,7 @@
-import React, {useState, useEffect, Fragment, Component} from 'react';
-import green from '@material-ui/core/colors/green';
-import Iframe from 'react-iframe'
-//import DoneIcon from '@material-ui/icons/Done';
+import React, {useState, useEffect, Fragment} from 'react';
 import {
-  Checkbox,
-  FormControl,
-  Select,
-  MenuItem,
-  TextField,
-  InputLabel,
-  Dialog,
-  Button,
-  withStyles,
-  ListItemText,
-  Chip,
-  IconButton,
-  Icon,
   Backdrop,
   CircularProgress,
-  InputAdornment,
-  FormControlLabel,
-  Switch,
   Grid
 } from "@material-ui/core/";
 import './plantList.css';

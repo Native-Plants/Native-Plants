@@ -113,12 +113,12 @@ function PlantCard(props) {
     const attribute = (<div>{`Photo by user ${plant.uploader} submitted to iNaturalist.org`}</div>);
     return (
         <Fragment>
-            <Grid xs={4} className={classes.pictureCard} onClick={() => setDetailsToggle(!detailsToggle)}>
+            <Grid xs={4} className={classes.pictureCard}>
                 <div className = {classes.fitContent}>
-                    <img alt={plant.photoName}src={`./images/${plant.genus}-${plant.species}.jpg`}/>
+                    <img alt={plant.photoName}src={`./images/${plant.genus}-${plant.species}.jpg`} onClick={() => setDetailsToggle(!detailsToggle)}/>
                     {/* {attribute} */}
                     <div className={classes.flex}>
-                        <div className={classes.columnFlex}>
+                        <div className={classes.columnFlex} onClick={() => setDetailsToggle(!detailsToggle)}>
                             <Typography variant="p">
                                 {plant.commonName}
                             </Typography>
@@ -157,8 +157,8 @@ function PlantDetails(props) {
             {attribute}
         </div>
         <div>
-            <span> {"Common Name: " + plant.commonName} </span>
-            <span> {`Scientific Name: ${plant.genus} ${plant.species}`} </span>
+            <div>{"Common Name: " + plant.commonName} </div>
+            <div>{`Scientific Name: ${plant.genus} ${plant.species}`} </div>
             <div>{`States and Province: ${plant.stateAndProvince}`} </div>
             <div>{`Duration: ${plant.duration}`} </div>
             <div>{`Growth Habit: ${plant.growthHabit}`} </div>
