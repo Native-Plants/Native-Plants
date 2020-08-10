@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/Native-Plants/static/css/main.bf4d12b9.chunk.css",
-    "main.js": "/Native-Plants/static/js/main.dc27d185.chunk.js",
-    "main.js.map": "/Native-Plants/static/js/main.dc27d185.chunk.js.map",
+    "main.css": "/Native-Plants/static/css/main.59194318.chunk.css",
+    "main.js": "/Native-Plants/static/js/main.eb778e25.chunk.js",
+    "main.js.map": "/Native-Plants/static/js/main.eb778e25.chunk.js.map",
     "runtime-main.js": "/Native-Plants/static/js/runtime-main.c7724f50.js",
     "runtime-main.js.map": "/Native-Plants/static/js/runtime-main.c7724f50.js.map",
-    "static/js/2.949fceca.chunk.js": "/Native-Plants/static/js/2.949fceca.chunk.js",
-    "static/js/2.949fceca.chunk.js.map": "/Native-Plants/static/js/2.949fceca.chunk.js.map",
+    "static/js/2.cdebadec.chunk.js": "/Native-Plants/static/js/2.cdebadec.chunk.js",
+    "static/js/2.cdebadec.chunk.js.map": "/Native-Plants/static/js/2.cdebadec.chunk.js.map",
     "index.html": "/Native-Plants/index.html",
-    "precache-manifest.366a7f96e544c27399c01fe4e3ef25e7.js": "/Native-Plants/precache-manifest.366a7f96e544c27399c01fe4e3ef25e7.js",
+    "precache-manifest.7e2491167955444021b782f3199338eb.js": "/Native-Plants/precache-manifest.7e2491167955444021b782f3199338eb.js",
     "service-worker.js": "/Native-Plants/service-worker.js",
-    "static/css/main.bf4d12b9.chunk.css.map": "/Native-Plants/static/css/main.bf4d12b9.chunk.css.map",
-    "static/js/2.949fceca.chunk.js.LICENSE.txt": "/Native-Plants/static/js/2.949fceca.chunk.js.LICENSE.txt"
+    "static/css/main.59194318.chunk.css.map": "/Native-Plants/static/css/main.59194318.chunk.css.map",
+    "static/js/2.cdebadec.chunk.js.LICENSE.txt": "/Native-Plants/static/js/2.cdebadec.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.c7724f50.js",
-    "static/js/2.949fceca.chunk.js",
-    "static/css/main.bf4d12b9.chunk.css",
-    "static/js/main.dc27d185.chunk.js"
+    "static/js/2.cdebadec.chunk.js",
+    "static/css/main.59194318.chunk.css",
+    "static/js/main.eb778e25.chunk.js"
   ]
 }
