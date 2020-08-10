@@ -2,12 +2,11 @@ import React, {useState, useEffect, Fragment} from 'react';
 import {
   Backdrop,
   CircularProgress,
-  Grid
+  Grid,
+  Typography
 } from "@material-ui/core/";
 import './plantList.css';
 import Tabletop from 'tabletop';
-
-
 import Filters from "./filters/filters";
 import Plants from "./plants/plants"
 
@@ -88,7 +87,7 @@ function PlantList() {
   };
 
   const filtersProps = {
-    searchText, setSearchText, favoritedFilter, setFavoritedFilter,
+    searchText, setSearchText, favoritedFilter, setFavoritedFilter, setPageNumber,
     selects: 
       [{
         list: shadeToleranceSelected,
@@ -123,6 +122,12 @@ function PlantList() {
     
   }
 
+  const emptyResults = (
+    <div className={"emptyResults"}>
+      <Typography variant="h3">{"There are no plants that match your filters"}</Typography>
+    </div>
+    );
+
   return (
     <Grid container>
       {loading ? null : (
@@ -131,8 +136,8 @@ function PlantList() {
             <Filters props={filtersProps}/>
           </Grid>
           <Grid item xs={9}>
-            <Plants props= {plantsProps}/>
-    
+            {
+             (filteredPlantLength) ? (<Plants props= {plantsProps}/>) : emptyResults}
           </Grid>
         </Fragment>
       )}

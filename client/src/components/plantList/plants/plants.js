@@ -11,10 +11,16 @@ import data from '../../shared/pageViewOptions'
 const useStyles = makeStyles({
     statusBar: {
         display: 'flex',
-        paddingTop: '15px'
+        paddingTop: '15px',
+        justifyContent: 'flex-end'
+    },
+    statusItem: {
+        display: 'flex',
+        marginLeft: '25px'
     },
     flex: {
-        display: 'flex'
+        display: 'flex',
+        width: '85%'
     },
     columnFlex: {
         display: 'flex',
@@ -29,7 +35,14 @@ const useStyles = makeStyles({
     },
     pictureCard: {
         paddingTop: "15px",
-        paddingBottom: "15px"
+        paddingBottom: "15px",
+        height: '500px'
+    },
+    imageFit: {
+        objectFit: "cover",
+        width: '85%',
+        height: '80%'
+        //object-fit: cover;
     }
 });
 
@@ -54,7 +67,7 @@ function Plants(props) {
         };
 
         return (
-            <PlantCard props={plantCardProps}/>
+            <PlantCard key={plant.id} props={plantCardProps}/>
         )
     })
 
@@ -70,33 +83,45 @@ function Status(props) {
     const {pageNumber, setPageNumber, plantsPerPage, setPlantsPerPage, maxLength, filteredPlantLength} = props.props;
     const plantsPerPageOptions = data.data.plantsPerPageOptions;
     const classes = useStyles();
+    //const formattedPageNumber = (pageNumber + 1 < 100) ? ((pageNumber + 1 < 10) ? "00" + (pageNumber + 1) : "0" + (pageNumber + 1)) : pageNumber + 1;
+    //const formattedMaxLength = (maxLength + 1 < 100) ? ((maxLength + 1 < 10) ? "00" + (maxLength + 1) : "0" + (maxLength + 1)) : maxLength + 1;
     return (
         <div className={classes.statusBar}>
-            <p>{`Showing Plants ${pageNumber + 1}-${maxLength} Of ${filteredPlantLength}`}</p>
-            <IconButton
-                disabled = {(pageNumber === 0) ? true : false}
-                onClick={() => {const value = (pageNumber - plantsPerPage < 0) ? 0 : pageNumber- plantsPerPage; setPageNumber(value)}}
-            >
-                <KeyboardArrowLeftIcon/>
-            </IconButton>
-            <IconButton
-                disabled = {(pageNumber + plantsPerPage >= filteredPlantLength) ? true : false}
-                onClick={() => setPageNumber(pageNumber + plantsPerPage)}
-            >
-                <KeyboardArrowRightIcon/>
-            </IconButton>
-            <p>{'Rows Per Page'}</p>
-            <Select
-                style={{ width: "50px", marginLeft: "10px" }}
-                value={plantsPerPage}
-                onChange={e => {setPlantsPerPage(e.target.value)}}
-            >
-                {plantsPerPageOptions.map(item => (
-                <MenuItem key={item} value={item} id={item}>
-                    <ListItemText primary={item} />
-                </MenuItem>
-                ))}
-            </Select>
+            <div className={classes.statusItem}>
+                <p>{'Rows Per Page'}</p>
+                <Select
+                    style={{ width: "50px", marginLeft: "10px" }}
+                    value={plantsPerPage}
+                    onChange={e => {setPlantsPerPage(e.target.value); setPageNumber(0);}}
+                >
+                    {plantsPerPageOptions.map(item => (
+                    <MenuItem key={item} value={item} id={item}>
+                        <ListItemText primary={item} />
+                    </MenuItem>
+                    ))}
+                </Select>
+            </div>
+
+            <div className={classes.statusItem}>
+                <p>{`Showing Plants ${pageNumber + 1}-${maxLength} Of ${filteredPlantLength}`}</p>
+            </div>
+
+            <div className={classes.statusItem}>
+                <IconButton
+                    disabled = {(pageNumber === 0) ? true : false}
+                    onClick={() => {const value = (pageNumber - plantsPerPage < 0) ? 0 : pageNumber- plantsPerPage; setPageNumber(value)}}
+                >
+                    <KeyboardArrowLeftIcon/>
+                </IconButton>
+                <IconButton
+                    disabled = {(pageNumber + plantsPerPage >= filteredPlantLength) ? true : false}
+                    onClick={() => setPageNumber(pageNumber + plantsPerPage)}
+                >
+                    <KeyboardArrowRightIcon/>
+                </IconButton>
+            </div>
+
+            
         </div>
     )
 }
@@ -110,19 +135,17 @@ function PlantCard(props) {
         plant
     }
     
-    const attribute = (<div>{`Photo by user ${plant.uploader} submitted to iNaturalist.org`}</div>);
+    //const attribute = (<div>{`Photo by user ${plant.uploader} submitted to iNaturalist.org`}</div>);
     return (
         <Fragment>
-            <Grid xs={4} className={classes.pictureCard}>
-                <div className = {classes.fitContent}>
-                    <img alt={plant.photoName}src={`./images/${plant.genus}-${plant.species}.jpg`} onClick={() => setDetailsToggle(!detailsToggle)}/>
-                    {/* {attribute} */}
+            <Grid item xs={4} className={classes.pictureCard}>
+                <img className={classes.imageFit} alt={plant.photoName} src={`./images/${plant.genus}-${plant.species}.jpg`} onClick={() => setDetailsToggle(!detailsToggle)}/>
                     <div className={classes.flex}>
                         <div className={classes.columnFlex} onClick={() => setDetailsToggle(!detailsToggle)}>
-                            <Typography variant="p">
+                            <Typography variant="h6">
                                 {plant.commonName}
                             </Typography>
-                            <Typography variant="p">
+                            <Typography variant="subtitle1">
                                 {`${plant.genus} ${plant.species}`}
                             </Typography>
                         </div>
@@ -132,7 +155,6 @@ function PlantCard(props) {
                             </Icon>
                         </div>
                     </div>
-                </div>
             </Grid>
             
             <Dialog fullScreen={true} open={detailsToggle} onClose={() => {setDetailsToggle(false)} }>

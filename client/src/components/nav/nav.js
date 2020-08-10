@@ -1,13 +1,21 @@
-import React, {useState, Fragment} from 'react';
+import React from 'react';
 import {NavLink} from 'react-router-dom';
 import './nav.css';
-import { AppBar, Toolbar, IconButton, Typography, Button, Grid } from '@material-ui/core';
-/*
-  This object is pretty basic and will only be modified for styling purposes. All new navbar objects will be modified in the navObjects object in the App component.
-*/
+import { AppBar, Toolbar, Typography, Grid, makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  navList: {
+    display: 'flex'
+  },
+  navItem: {
+    margin: 'auto'
+  }
+});
+
 function Nav(props) {
   /*Declaring variables from props*/
   const navObjects = props.navObjects;
+  const classes = useStyles();
   
   /*
     Creating a state variable to track the current page.
@@ -17,13 +25,11 @@ function Nav(props) {
   
   const navListItems = navObjects.map(navObject => {
     return (
-      <Grid item xs={1}>
-        <NavLink to = {navObject.path} key = {navObject.id}>
-            <span className = "navItem">
-              {navObject.name}
-            </span>
-        </NavLink>
-      </Grid>
+      <NavLink to = {navObject.path} key = {navObject.id} className={classes.navItem}>
+          <Typography variant="subtitle1">
+            {navObject.name}
+          </Typography>
+      </NavLink>
     );
   });
 
@@ -32,11 +38,16 @@ function Nav(props) {
       <AppBar position="static">
         <Toolbar>
           <Grid item xs={4}>
-            <Typography variant="h6">
-              Ethical Landscape Initiative
+            <Typography variant="h5">
+              {'Ethical Landscape Initiative'}
             </Typography>
           </Grid>
-            {navListItems}
+          <Grid item xs={4}/>
+          <Grid item xs={4}>
+            <div className = {classes.navList}>
+              {navListItems}
+            </div>
+          </Grid>
 
           
           {/* <Button color="inherit">Login</Button> */}

@@ -6,17 +6,20 @@ import About from "./components/about/about";
 import PlantList from "./components/plantList/plantList";
 import Store from "./components/store/store";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import { Grid } from '@material-ui/core';
+import {Grid} from '@material-ui/core';
+
+
+
 function App() {
   /*
     This list of objects below is what populates the items on the Navbar, and also takes care of the routing.
     To add to the navbar create and import a new component, then add to the navbar list. The Id is arbitrary, but is used only as a unique value to give context to what object we are iterating through.
   */
  const pageObjects = [
-  {id: 1, name: "Home",        path: "/",               exact: true,  display: true,  component: Home},
-  {id: 2, name: "About",       path: "/about",          exact: true,  display: true,  component: About},
-  {id: 3, name: "Plants List", path: "/plant-list",     exact: true,  display: true,  component: PlantList},
-  {id: 4, name: "Store",       path: "/store",          exact: true,  display: true,  component: Store}
+    {id: 1, name: "Home",           path: "/",               exact: true,  display: true,  component: Home},
+    {id: 2, name: "About",          path: "/about",          exact: true,  display: true,  component: About},
+    {id: 3, name: "Plant Database", path: "/plants",         exact: true,  display: true,  component: PlantList},
+    {id: 4, name: "Marketplace",    path: "/store",          exact: true,  display: true,  component: Store}
   ];
 
   /*
