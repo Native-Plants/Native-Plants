@@ -1,9 +1,10 @@
-import { makeStyles, Divider, IconButton, TextField, Typography, Checkbox, Grid, FormControlLabel } from "@material-ui/core";
+import { makeStyles, Divider, IconButton, TextField, Typography, Checkbox, Grid, FormControlLabel, Hidden } from "@material-ui/core";
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Search from '@material-ui/icons/Search'
 import React, { useState, Fragment } from "react";
-import data from '../../shared/filterOptions';
+import data from '../shared/filterOptions';
 
 // const GreenCheckbox = withStyles({
 //     root: {
@@ -37,11 +38,15 @@ const useStyles = makeStyles({
     },
     searchField: {
         flexGrow: 1
+    },
+    backIcon: {
+        marginRight: '0',
+        marginLeft: 'auto'
     }
 });
 
 function Filter(props) {
-    const {searchText, setSearchText, favoritedFilter, setFavoritedFilter, selects, setPageNumber} = props.props;
+    const {searchText, setSearchText, favoritedFilter, setFavoritedFilter, selects, setPageNumber, setMobileFilterToggle} = props.props;
     const classes = useStyles();
     const displaySearchBar =  (
         <div className = {classes.searchBar}>
@@ -60,7 +65,6 @@ function Filter(props) {
                             setSearchText(e.target.value);
                             setPageNumber(0);
                         }}
-
                     />
                 </Grid>
             </Grid>
@@ -74,23 +78,27 @@ function Filter(props) {
     
     const displayFavoritedFilter = (
         <div>
-            <FormControlLabel control={<Checkbox checked={favoritedFilter} onChange={() => {setFavoritedFilter(!favoritedFilter); setPageNumber(0);}}/>} label="Show Favorited Plants" />
+            <FormControlLabel control={<Checkbox checked={favoritedFilter} onChange={() => {setFavoritedFilter(!favoritedFilter); setPageNumber(0);}}/>} label="Show Favorite Plants" />
         </div>
-
     )
 
     return (
         <div className={classes.filters}>
+            <Hidden mdUp>
+                <IconButton onClick = {() => setMobileFilterToggle(false)}>
+                    <ArrowBackIcon className={classes.backIcon}/>
+                </IconButton>
+            </Hidden>
             {displaySearchBar}
-            <Typography variant="h5">
-                Filters
-            </Typography>
+            <Hidden smDown>
+                <Typography variant="h5" color={"secondary"}>
+                    Filters
+                </Typography>
+            </Hidden>
             {displayFavoritedFilter}
             {displayFilter}
-            
         </div>
     )
-
 }
 
 function DisplayFilter(props) {
@@ -103,7 +111,6 @@ function DisplayFilter(props) {
 
     function handleClick(e) {
         let tempList = JSON.parse(JSON.stringify(list));
-        console.log(tempList)
         if (list.includes(e)) {
             tempList = tempList.filter(item => {return(item !== e)})
         }
@@ -126,12 +133,11 @@ function DisplayFilter(props) {
     })
 
     const displayOptions = (toggle === false) ? null : optionCheckboxes;
-
-
+    
     return (
         <Fragment>
             <div className={classes.filter}>
-                <Typography variant="h6">
+                <Typography variant="h6" color={"secondary"}>
                     {label}
                 </Typography>
                 <IconButton

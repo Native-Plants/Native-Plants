@@ -1,6 +1,4 @@
 import React, {Fragment} from 'react';
-import './about.css';
-
 function About() {
   return (
     <Fragment>

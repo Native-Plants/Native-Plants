@@ -1,5 +1,4 @@
 import React, {Fragment} from 'react';
-import './home.css';
 
 function Home() {
   return (
